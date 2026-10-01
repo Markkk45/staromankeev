@@ -63,7 +63,16 @@ jobs:
         run: flutter pub get
 
       - name: Build unsigned iOS
-        run: flutter build ios --no-codesign --release
+        run: |
+          # Принудительно отключаем подпись в сгенерированном проекте
+          sed -i '' 's/CODE_SIGNING_ALLOWED = YES/CODE_SIGNING_ALLOWED = NO/g' ios/Runner.xcodeproj/project.pbxproj || true
+          sed -i '' 's/CODE_SIGNING_REQUIRED = YES/CODE_SIGNING_REQUIRED = NO/g' ios/Runner.xcodeproj/project.pbxproj || true
+          sed -i '' 's/CODE_SIGN_IDENTITY = "Apple Development";/CODE_SIGN_IDENTITY = "";/g' ios/Runner.xcodeproj/project.pbxproj || true
+          flutter build ios --no-codesign --release
+        env:
+          CODE_SIGNING_ALLOWED: "NO"
+          CODE_SIGNING_REQUIRED: "NO"
+          CODE_SIGN_IDENTITY: "-"
 
       - name: Package Payload IPA
         run: |
