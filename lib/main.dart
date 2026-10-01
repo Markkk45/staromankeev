@@ -105,7 +105,7 @@ class StaromankeevApp extends StatelessWidget {
             letterSpacing: 1.0,
           ),
         ),
-        tabBarTheme: const TabBarThemeData(
+        tabBarTheme: const TabBarTheme(
           labelColor: C.gold,
           unselectedLabelColor: C.txtMut,
           indicatorColor: C.gold,
